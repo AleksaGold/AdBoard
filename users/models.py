@@ -16,13 +16,18 @@ class User(AbstractUser):
     ]
 
     username = None
-    email = models.EmailField(unique=True, verbose_name="Электронная почта пользователя (email)")
+    email = models.EmailField(
+        unique=True, verbose_name="Электронная почта пользователя (email)"
+    )
 
     first_name = models.CharField(max_length=50, verbose_name="Имя пользователя")
     last_name = models.CharField(max_length=50, verbose_name="Фамилия пользователя")
     phone = PhoneNumberField(verbose_name="Телефон для связи", **NULLABLE)
     role = models.CharField(
-        max_length=20, choices=ROLES, verbose_name="Роль пользователя", default="user",
+        max_length=20,
+        choices=ROLES,
+        verbose_name="Роль пользователя",
+        default="user",
     )
     image = models.ImageField(
         upload_to="users/avatars", verbose_name="Аватарка пользователя", **NULLABLE
