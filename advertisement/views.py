@@ -1,11 +1,14 @@
 from rest_framework.generics import (CreateAPIView, DestroyAPIView,
                                      ListAPIView, RetrieveAPIView,
                                      UpdateAPIView)
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 
 from advertisement.models import Advertisement, Review
-from advertisement.serializers import AdvertisementSerializer, ReviewSerializer, ReviewDetailSerializer, \
-    AdvertisementDetailSerializer
+from advertisement.serializers import (AdvertisementDetailSerializer,
+                                       AdvertisementSerializer,
+                                       ReviewDetailSerializer,
+                                       ReviewSerializer)
+from users.permissions import IsAuthorPermission
 
 
 class AdvertisementCreateAPIView(CreateAPIView):
@@ -38,12 +41,14 @@ class AdvertisementUpdateAPIView(UpdateAPIView):
 
     queryset = Advertisement.objects.all()
     serializer_class = AdvertisementSerializer
+    permission_classes = (IsAuthenticated & IsAuthorPermission | IsAdminUser,)
 
 
 class AdvertisementDestroyAPIView(DestroyAPIView):
     """Представление для удаления объекта модели Advertisement."""
 
     queryset = Advertisement.objects.all()
+    permission_classes = (IsAuthenticated & IsAuthorPermission | IsAdminUser,)
 
 
 class ReviewCreateAPIView(CreateAPIView):
@@ -75,9 +80,11 @@ class ReviewUpdateAPIView(UpdateAPIView):
 
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    permission_classes = (IsAuthenticated & IsAuthorPermission | IsAdminUser,)
 
 
 class ReviewDestroyAPIView(DestroyAPIView):
     """Представление для удаления объекта модели Review."""
 
     queryset = Review.objects.all()
+    permission_classes = (IsAuthenticated & IsAuthorPermission | IsAdminUser,)

@@ -32,7 +32,6 @@ class User(AbstractUser):
     image = models.ImageField(
         upload_to="users/avatars", verbose_name="Аватарка пользователя", **NULLABLE
     )
-    token = models.CharField(max_length=100, verbose_name="Токен", **NULLABLE)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

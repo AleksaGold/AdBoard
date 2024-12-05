@@ -7,6 +7,7 @@ from users.serializers import UserSerializer
 
 class UserCreateAPIView(CreateAPIView):
     """Представление для создания нового объекта модели User."""
+
     serializer_class = UserSerializer
     permission_classes = (AllowAny,)
 
@@ -19,5 +20,6 @@ class UserCreateAPIView(CreateAPIView):
 
 class UserListAPIView(ListAPIView):
     """Представление для создания нового объекта модели User."""
+
     queryset = User.objects.all()
     serializer_class = UserSerializer

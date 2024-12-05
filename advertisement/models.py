@@ -16,7 +16,7 @@ class Advertisement(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Пользователь, который создал объявление",
         related_name="advertisements",
-        ** NULLABLE,
+        **NULLABLE,
     )
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name="Время и дата создания объявления"
@@ -41,7 +41,7 @@ class Review(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Пользователь, который оставил отзыв",
         related_name="reviews",
-        ** NULLABLE,
+        **NULLABLE,
     )
     ad = models.ForeignKey(
         "advertisement.Advertisement",

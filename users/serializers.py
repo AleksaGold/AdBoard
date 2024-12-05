@@ -18,5 +18,4 @@ class UserSerializer(ModelSerializer):
             "is_superuser",
             "is_active",
             "password",
-            "token"
         )
