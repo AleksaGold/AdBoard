@@ -16,6 +16,8 @@ black = "^24.10.0"
 isort = "^5.13.2"
 ipython = "^8.30.0"
 django-phonenumber-field = {extras = ["phonenumberslite"], version = "^8.0.0"}
+djangorestframework-simplejwt = "^5.3.1"
+djoser = "^2.3.1"
 
 
 [build-system]
