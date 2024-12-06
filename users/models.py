@@ -8,11 +8,9 @@ NULLABLE = {"blank": True, "null": True}
 class User(AbstractUser):
     """Модель User для хранения информации о пользователях веб-приложения."""
 
-    USER = "user"
-    ADMIN = "admin"
     ROLES = [
-        (USER, "Пользователь"),
-        (ADMIN, "Администратор"),
+        ("USER", "user"),
+        ("ADMIN", "admin"),
     ]
 
     username = None
