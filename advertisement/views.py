@@ -9,7 +9,7 @@ from advertisement.serializers import (AdvertisementDetailSerializer,
                                        AdvertisementSerializer,
                                        ReviewDetailSerializer,
                                        ReviewSerializer)
-from users.permissions import IsAuthorPermission, IsAdminPermission
+from users.permissions import IsAdminPermission, IsAuthorPermission
 
 
 class AdvertisementCreateAPIView(CreateAPIView):
@@ -28,7 +28,7 @@ class AdvertisementListAPIView(ListAPIView):
     queryset = Advertisement.objects.all()
     serializer_class = AdvertisementSerializer
     permission_classes = (AllowAny,)
-    filterset_fields = ('title',)
+    filterset_fields = ("title",)
     pagination_class = CustomPagination
 
 
@@ -44,14 +44,18 @@ class AdvertisementUpdateAPIView(UpdateAPIView):
 
     queryset = Advertisement.objects.all()
     serializer_class = AdvertisementSerializer
-    permission_classes = (IsAuthenticated & IsAuthorPermission | IsAdminPermission | IsAdminUser,)
+    permission_classes = (
+        IsAuthenticated & IsAuthorPermission | IsAdminPermission | IsAdminUser,
+    )
 
 
 class AdvertisementDestroyAPIView(DestroyAPIView):
     """Представление для удаления объекта модели Advertisement."""
 
     queryset = Advertisement.objects.all()
-    permission_classes = (IsAuthenticated & IsAuthorPermission | IsAdminPermission | IsAdminUser,)
+    permission_classes = (
+        IsAuthenticated & IsAuthorPermission | IsAdminPermission | IsAdminUser,
+    )
 
 
 class ReviewCreateAPIView(CreateAPIView):
@@ -83,11 +87,15 @@ class ReviewUpdateAPIView(UpdateAPIView):
 
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    permission_classes = (IsAuthenticated & IsAuthorPermission | IsAdminPermission | IsAdminUser,)
+    permission_classes = (
+        IsAuthenticated & IsAuthorPermission | IsAdminPermission | IsAdminUser,
+    )
 
 
 class ReviewDestroyAPIView(DestroyAPIView):
     """Представление для удаления объекта модели Review."""
 
     queryset = Review.objects.all()
-    permission_classes = (IsAuthenticated & IsAuthorPermission | IsAdminPermission | IsAdminUser,)
+    permission_classes = (
+        IsAuthenticated & IsAuthorPermission | IsAdminPermission | IsAdminUser,
+    )
