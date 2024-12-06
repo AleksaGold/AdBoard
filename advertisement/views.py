@@ -4,6 +4,7 @@ from rest_framework.generics import (CreateAPIView, DestroyAPIView,
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 
 from advertisement.models import Advertisement, Review
+from advertisement.paginators import CustomPagination
 from advertisement.serializers import (AdvertisementDetailSerializer,
                                        AdvertisementSerializer,
                                        ReviewDetailSerializer,
@@ -28,6 +29,7 @@ class AdvertisementListAPIView(ListAPIView):
     serializer_class = AdvertisementSerializer
     permission_classes = (AllowAny,)
     filterset_fields = ('title',)
+    pagination_class = CustomPagination
 
 
 class AdvertisementRetrieveAPIView(RetrieveAPIView):
