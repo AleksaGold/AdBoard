@@ -1,4 +1,5 @@
 from django.urls import path
+from djoser.views import UserViewSet
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import (TokenObtainPairView,
                                             TokenRefreshView)
@@ -21,4 +22,14 @@ urlpatterns = [
         name="token_refresh",
     ),
     path("users/", UserListAPIView.as_view(), name="users_list"),
+    path(
+        "reset_password/",
+        UserViewSet.as_view({"post": "reset_password"}),
+        name="reset_password",
+    ),
+    path(
+        "reset_password_confirm/",
+        UserViewSet.as_view({"post": "reset_password_confirm"}),
+        name="reset_password_confirm",
+    ),
 ]
