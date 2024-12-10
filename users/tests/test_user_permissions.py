@@ -10,17 +10,16 @@ def test_unauthorized_advertisement_create(client):
     """Тестирование создания объявления неавторизованным пользователем.
     Создание объявления должно быть недоступно."""
     url = reverse("advertisement:advertisements_create")
-    data = {
-        "title": "Unauthorized Advertisement",
-        "price": 100
-    }
+    data = {"title": "Unauthorized Advertisement", "price": 100}
     response = client.post(url, data)
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
 @pytest.mark.django_db
-def test_unauthorized_advertisement_list(client, user_advertisement_db, admin_advertisement_db):
+def test_unauthorized_advertisement_list(
+    client, user_advertisement_db, admin_advertisement_db
+):
     """Тестирование просмотра списка объявлений неавторизованным пользователем."""
     url = reverse("advertisement:advertisements_list")
     response = client.get(url)
@@ -34,7 +33,9 @@ def test_admin_advertisement_retrieve(admin, client, user_advertisement_db):
     """Тестирование просмотра любого объявления администратором."""
     client.force_authenticate(user=admin)
 
-    url = reverse("advertisement:advertisements_retrieve", args=(user_advertisement_db.id,))
+    url = reverse(
+        "advertisement:advertisements_retrieve", args=(user_advertisement_db.id,)
+    )
     response = client.get(url)
 
     assert response.status_code == status.HTTP_200_OK
@@ -42,17 +43,23 @@ def test_admin_advertisement_retrieve(admin, client, user_advertisement_db):
 
 
 @pytest.mark.django_db
-def test_user_advertisement_retrieve(user, client, user_advertisement_db, admin_advertisement_db):
+def test_user_advertisement_retrieve(
+    user, client, user_advertisement_db, admin_advertisement_db
+):
     """Тестирование просмотра любого объявления пользователем."""
     client.force_authenticate(user=user)
 
-    user_url = reverse("advertisement:advertisements_retrieve", args=(user_advertisement_db.id,))
+    user_url = reverse(
+        "advertisement:advertisements_retrieve", args=(user_advertisement_db.id,)
+    )
     user_response = client.get(user_url)
 
     assert user_response.status_code == status.HTTP_200_OK
     assert user_response.data["title"] == "Test User Advertisement"
 
-    admin_url = reverse("advertisement:advertisements_retrieve", args=(admin_advertisement_db.id,))
+    admin_url = reverse(
+        "advertisement:advertisements_retrieve", args=(admin_advertisement_db.id,)
+    )
     admin_response = client.get(admin_url)
 
     assert admin_response.status_code == status.HTTP_200_OK
@@ -63,7 +70,9 @@ def test_user_advertisement_retrieve(user, client, user_advertisement_db, admin_
 def test_unauthorized_advertisement_retrieve(client, user_advertisement_db):
     """Тестирование просмотра объявления неавторизованным пользователем.
     Просмотр объявления должен быть недоступен."""
-    url = reverse("advertisement:advertisements_retrieve", args=(user_advertisement_db.id,))
+    url = reverse(
+        "advertisement:advertisements_retrieve", args=(user_advertisement_db.id,)
+    )
     response = client.get(url)
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
@@ -74,7 +83,9 @@ def test_admin_advertisement_update(admin, client, user_advertisement_db):
     """Тестирование обновления любого объявления администратором."""
     client.force_authenticate(user=admin)
 
-    url = reverse("advertisement:advertisements_update", args=(user_advertisement_db.id,))
+    url = reverse(
+        "advertisement:advertisements_update", args=(user_advertisement_db.id,)
+    )
     data = {"title": "Change User Advertisement"}
     response = client.patch(url, data)
 
@@ -83,19 +94,25 @@ def test_admin_advertisement_update(admin, client, user_advertisement_db):
 
 
 @pytest.mark.django_db
-def test_user_advertisement_update(user, client, user_advertisement_db, admin_advertisement_db):
+def test_user_advertisement_update(
+    user, client, user_advertisement_db, admin_advertisement_db
+):
     """Тестирование обновления любого объявления пользователем.
     Обновление объявления созданного другим пользователем должно быть недоступно."""
     client.force_authenticate(user=user)
 
-    user_url = reverse("advertisement:advertisements_update", args=(user_advertisement_db.id,))
+    user_url = reverse(
+        "advertisement:advertisements_update", args=(user_advertisement_db.id,)
+    )
     user_data = {"title": "Change User Advertisement"}
     user_response = client.patch(user_url, user_data)
 
     assert user_response.status_code == status.HTTP_200_OK
     assert user_response.data["title"] == "Change User Advertisement"
 
-    admin_url = reverse("advertisement:advertisements_update", args=(admin_advertisement_db.id,))
+    admin_url = reverse(
+        "advertisement:advertisements_update", args=(admin_advertisement_db.id,)
+    )
     admin_data = {"title": "Change Admin Advertisement"}
     admin_response = client.patch(admin_url, admin_data)
 
@@ -107,7 +124,9 @@ def test_admin_advertisement_destroy(admin, client, user_advertisement_db):
     """Тестирование удаления любого объявления администратором."""
     client.force_authenticate(user=admin)
 
-    url = reverse("advertisement:advertisements_destroy", args=(user_advertisement_db.id,))
+    url = reverse(
+        "advertisement:advertisements_destroy", args=(user_advertisement_db.id,)
+    )
     response = client.delete(url)
 
     assert response.status_code == status.HTTP_204_NO_CONTENT
@@ -115,18 +134,24 @@ def test_admin_advertisement_destroy(admin, client, user_advertisement_db):
 
 
 @pytest.mark.django_db
-def test_user_advertisement_destroy(user, client, user_advertisement_db, admin_advertisement_db):
+def test_user_advertisement_destroy(
+    user, client, user_advertisement_db, admin_advertisement_db
+):
     """Тестирование удаления любого объявления пользователем.
     Удаление объявления созданного другим пользователем должно быть недоступно."""
     client.force_authenticate(user=user)
 
-    user_url = reverse("advertisement:advertisements_destroy", args=(user_advertisement_db.id,))
+    user_url = reverse(
+        "advertisement:advertisements_destroy", args=(user_advertisement_db.id,)
+    )
     user_response = client.delete(user_url)
 
     assert user_response.status_code == status.HTTP_204_NO_CONTENT
     assert Advertisement.objects.filter(id=user_advertisement_db.id).exists() is False
 
-    admin_url = reverse("advertisement:advertisements_destroy", args=(admin_advertisement_db.id,))
+    admin_url = reverse(
+        "advertisement:advertisements_destroy", args=(admin_advertisement_db.id,)
+    )
     admin_response = client.delete(admin_url)
 
     assert admin_response.status_code == status.HTTP_403_FORBIDDEN
