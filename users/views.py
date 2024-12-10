@@ -1,5 +1,5 @@
 from rest_framework.generics import CreateAPIView, ListAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 
 from users.models import User
 from users.serializers import UserSerializer
@@ -23,3 +23,4 @@ class UserListAPIView(ListAPIView):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (IsAuthenticated & IsAdminUser,)
