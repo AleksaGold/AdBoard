@@ -11,7 +11,7 @@ def test_user_create(client):
         "email": "user@test.com",
         "first_name": "test_first",
         "last_name": "test_last",
-        "role": "USER",
+        "role": "user",
         "password": "123teST",
     }
     response = client.post(url, data)

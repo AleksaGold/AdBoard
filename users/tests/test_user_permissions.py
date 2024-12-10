@@ -120,6 +120,20 @@ def test_user_advertisement_update(
 
 
 @pytest.mark.django_db
+def test_unauthorized_advertisement_update(client, user_advertisement_db):
+    """Тестирование обновления объявления неавторизованным пользователем.
+    Обновление объявления должно быть недоступно."""
+
+    url = reverse(
+        "advertisement:advertisements_update", args=(user_advertisement_db.id,)
+    )
+    data = {"text": "Change User Review"}
+    response = client.patch(url, data)
+
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+
+
+@pytest.mark.django_db
 def test_admin_advertisement_destroy(admin, client, user_advertisement_db):
     """Тестирование удаления любого объявления администратором."""
     client.force_authenticate(user=admin)
@@ -156,6 +170,20 @@ def test_user_advertisement_destroy(
 
     assert admin_response.status_code == status.HTTP_403_FORBIDDEN
     assert Advertisement.objects.filter(id=admin_advertisement_db.id).exists() is True
+
+
+@pytest.mark.django_db
+def test_unauthorized_advertisement_destroy(client, user_advertisement_db):
+    """Тестирование удаления объявления неавторизованным пользователем.
+    Удаление объявления должно быть недоступно."""
+
+    url = reverse(
+        "advertisement:advertisements_destroy", args=(user_advertisement_db.id,)
+    )
+    response = client.delete(url)
+
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert Advertisement.objects.filter(id=user_advertisement_db.id).exists() is True
 
 
 @pytest.mark.django_db
@@ -257,6 +285,18 @@ def test_user_review_update(user, client, user_review_db, admin_review_db):
 
 
 @pytest.mark.django_db
+def test_unauthorized_review_update(client, user_review_db):
+    """Тестирование обновления отзыва неавторизованным пользователем.
+    Обновление отзыва должно быть недоступно."""
+
+    url = reverse("advertisement:reviews_update", args=(user_review_db.id,))
+    data = {"text": "Change User Review"}
+    response = client.patch(url, data)
+
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+
+
+@pytest.mark.django_db
 def test_admin_review_destroy(admin, client, user_review_db):
     """Тестирование удаления любого отзыва администратором."""
     client.force_authenticate(user=admin)
@@ -285,3 +325,15 @@ def test_user_review_destroy(user, client, user_review_db, admin_review_db):
 
     assert admin_response.status_code == status.HTTP_403_FORBIDDEN
     assert Review.objects.filter(id=admin_review_db.id).exists() is True
+
+
+@pytest.mark.django_db
+def test_unauthorized_review_destroy(client, user_review_db):
+    """Тестирование удаления отзыва неавторизованным пользователем.
+    Удаление отзыва должно быть недоступно."""
+
+    url = reverse("advertisement:reviews_destroy", args=(user_review_db.id,))
+    response = client.delete(url)
+
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert Review.objects.filter(id=user_review_db.id).exists() is True

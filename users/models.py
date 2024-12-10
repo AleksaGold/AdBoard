@@ -9,8 +9,8 @@ class User(AbstractUser):
     """Модель User для хранения информации о пользователях веб-приложения."""
 
     ROLES = [
-        ("USER", "user"),
-        ("ADMIN", "admin"),
+        ("user", "user"),
+        ("admin", "admin"),
     ]
 
     username = None

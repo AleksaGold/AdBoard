@@ -1,7 +1,7 @@
 from rest_framework.generics import (CreateAPIView, DestroyAPIView,
                                      ListAPIView, RetrieveAPIView,
                                      UpdateAPIView)
-from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
+from rest_framework.permissions import AllowAny
 
 from advertisement.models import Advertisement, Review
 from advertisement.paginators import CustomPagination
@@ -9,7 +9,7 @@ from advertisement.serializers import (AdvertisementDetailSerializer,
                                        AdvertisementSerializer,
                                        ReviewDetailSerializer,
                                        ReviewSerializer)
-from users.permissions import IsAdminPermission, IsAuthorPermission
+from advertisement.services import get_user_permissions
 
 
 class AdvertisementCreateAPIView(CreateAPIView):
@@ -44,18 +44,20 @@ class AdvertisementUpdateAPIView(UpdateAPIView):
 
     queryset = Advertisement.objects.all()
     serializer_class = AdvertisementSerializer
-    permission_classes = (
-        IsAuthenticated & IsAuthorPermission | IsAdminPermission | IsAdminUser,
-    )
+
+    def get_permissions(self):
+        """Возвращает права доступа в зависимости от прав пользователя."""
+        return get_user_permissions(self.request)
 
 
 class AdvertisementDestroyAPIView(DestroyAPIView):
     """Представление для удаления объекта модели Advertisement."""
 
     queryset = Advertisement.objects.all()
-    permission_classes = (
-        IsAuthenticated & IsAuthorPermission | IsAdminPermission | IsAdminUser,
-    )
+
+    def get_permissions(self):
+        """Возвращает права доступа в зависимости от прав пользователя."""
+        return get_user_permissions(self.request)
 
 
 class ReviewCreateAPIView(CreateAPIView):
@@ -87,15 +89,17 @@ class ReviewUpdateAPIView(UpdateAPIView):
 
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    permission_classes = (
-        IsAuthenticated & IsAuthorPermission | IsAdminPermission | IsAdminUser,
-    )
+
+    def get_permissions(self):
+        """Возвращает права доступа в зависимости от прав пользователя."""
+        return get_user_permissions(self.request)
 
 
 class ReviewDestroyAPIView(DestroyAPIView):
     """Представление для удаления объекта модели Review."""
 
     queryset = Review.objects.all()
-    permission_classes = (
-        IsAuthenticated & IsAuthorPermission | IsAdminPermission | IsAdminUser,
-    )
+
+    def get_permissions(self):
+        """Возвращает права доступа в зависимости от прав пользователя."""
+        return get_user_permissions(self.request)

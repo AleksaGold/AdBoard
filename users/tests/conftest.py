@@ -18,7 +18,7 @@ def user():
         email="user@test.com",
         first_name="test_first",
         last_name="test_last",
-        role="USER",
+        role="user",
         password="123teST",
     )
 
@@ -30,7 +30,7 @@ def admin():
         email="admin@test.com",
         first_name="test_first",
         last_name="test_last",
-        role="ADMIN",
+        role="admin",
         password="123teST",
     )
 

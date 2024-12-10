@@ -14,4 +14,4 @@ class IsAdminPermission(permissions.BasePermission):
 
     def has_permission(self, request, view):
         """Проверяет роль пользователя."""
-        return request.user.role == "ADMIN"
+        return request.user.role == "admin"
