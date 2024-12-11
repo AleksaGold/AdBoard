@@ -1,5 +1,4 @@
-from rest_framework.exceptions import PermissionDenied
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 
 from users.permissions import IsAdminPermission, IsAuthorPermission
 
@@ -7,9 +6,9 @@ from users.permissions import IsAdminPermission, IsAuthorPermission
 def get_user_permissions(request):
     """Настройка прав доступа в зависимости от прав пользователя."""
     if not request.user.is_authenticated:
-        raise PermissionDenied("Для выполнения этого запроса необходима авторизация")
+        return (IsAuthenticatedOrReadOnly(),)
     if request.user.is_superuser:
-        return (IsAdminUser,)
+        return (IsAdminUser(),)
     if request.user.role == "user":
         return (IsAuthorPermission(),)
     if request.user.role == "admin":

@@ -130,7 +130,7 @@ def test_unauthorized_advertisement_update(client, user_advertisement_db):
     data = {"text": "Change User Review"}
     response = client.patch(url, data)
 
-    assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
 @pytest.mark.django_db
@@ -182,7 +182,7 @@ def test_unauthorized_advertisement_destroy(client, user_advertisement_db):
     )
     response = client.delete(url)
 
-    assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
     assert Advertisement.objects.filter(id=user_advertisement_db.id).exists() is True
 
 
@@ -293,7 +293,7 @@ def test_unauthorized_review_update(client, user_review_db):
     data = {"text": "Change User Review"}
     response = client.patch(url, data)
 
-    assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
 @pytest.mark.django_db
@@ -335,5 +335,5 @@ def test_unauthorized_review_destroy(client, user_review_db):
     url = reverse("advertisement:reviews_destroy", args=(user_review_db.id,))
     response = client.delete(url)
 
-    assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
     assert Review.objects.filter(id=user_review_db.id).exists() is True
